@@ -1,0 +1,145 @@
+<title>Mon Site</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    terracotta: {
+                        50: "#fdf4f0",
+                        100: "#f9e5dc",
+                        200: "#f2c9b9",
+                        300: "#e9a78f",
+                        400: "#df8066",
+                        500: "#d05f45",
+                        600: "#b84b35",
+                        700: "#963c2d",
+                        800: "#793328",
+                        900: "#632e27",
+                        950: "#351512",
+                    },
+                    warm: {
+                        cream: "#fff8ed",
+                        sand: "#e8c9a8",
+                        peach: "#f4b183",
+                        coral: "#e76f51",
+                        rust: "#a9472b",
+                        brown: "#5c3b2e",
+                        chocolate: "#38251f",
+                    }
+                }
+            }
+        }
+    }
+</script>
+<header class="bg-terracotta-800 text-white">
+    <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
+        <h1 class="text-2xl font-bold">
+            Mon Site
+        </h1>
+
+        <ul class="flex gap-6">
+            <li>
+                <a href="#" class="hover:text-terracotta-200">
+                    Accueil
+                </a>
+            </li>
+            <li>
+                <a href="#" class="hover:text-terracotta-200">
+                    À propos
+                </a>
+            </li>
+            <li>
+                <a href="#" class="hover:text-terracotta-200">
+                    Services
+                </a>
+            </li>
+            <li>
+                <a href="#" class="hover:text-terracotta-200">
+                    Contact
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+
+    <section class="bg-gradient-to-br from-terracotta-100 to-warm-peach px-6 py-24">
+        <div class="mx-auto max-w-6xl text-center">
+
+            <p class="mb-4 font-medium uppercase tracking-widest text-terracotta-700">
+                Bienvenue
+            </p>
+
+            <h2 class="mb-6 text-5xl font-bold text-terracotta-950">
+                Bienvenue sur mon site 👋
+            </h2>
+
+            <p class="mx-auto mb-8 max-w-2xl text-lg text-warm-brown">
+                Découvrez mon univers et mes projets.
+                Cette page est un point de départ pour mon futur site web.
+            </p>
+
+            <a
+                href="#"
+                class="inline-block rounded-full bg-terracotta-600 px-8 py-3 font-semibold text-white transition hover:bg-terracotta-700"
+            >
+                En savoir plus
+            </a>
+
+        </div>
+    </section>
+
+    <section class="px-6 py-20">
+
+        <div class="mx-auto max-w-6xl">
+
+            <h2 class="mb-12 text-center text-3xl font-bold text-terracotta-900">
+                Mes services
+            </h2>
+
+            <div class="grid gap-6 md:grid-cols-3">
+
+                <article class="rounded-2xl bg-white p-8 shadow-sm ring-1 ring-terracotta-100">
+                    <div class="mb-5 text-4xl">🎨</div>
+                    <h3 class="mb-3 text-xl font-bold text-terracotta-800">
+                        Service 1
+                    </h3>
+                    <p class="text-warm-brown">
+                        Une courte description de mon premier service.
+                    </p>
+                </article>
+
+                <article class="rounded-2xl bg-white p-8 shadow-sm ring-1 ring-terracotta-100">
+                    <div class="mb-5 text-4xl">✨</div>
+                    <h3 class="mb-3 text-xl font-bold text-terracotta-800">
+                        Service 2
+                    </h3>
+                    <p class="text-warm-brown">
+                        Une courte description de mon deuxième service.
+                    </p>
+                </article>
+
+                <article class="rounded-2xl bg-white p-8 shadow-sm ring-1 ring-terracotta-100">
+                    <div class="mb-5 text-4xl">🔥</div>
+                    <h3 class="mb-3 text-xl font-bold text-terracotta-800">
+                        Service 3
+                    </h3>
+                    <p class="text-warm-brown">
+                        Une courte description de mon troisième service.
+                    </p>
+                </article>
+
+            </div>
+        </div>
+
+    </section>
+
+</main>
+
+<footer class="bg-warm-chocolate px-6 py-8 text-center text-warm-cream">
+    <p>&copy; 2026 Mon Site. Tous droits réservés.</p>
+</footer>
