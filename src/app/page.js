@@ -1,69 +1,310 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+import { Search, User, Menu, X, Heart, MessageSquare, Clock, ArrowRight, Send } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Home() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.js
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen bg-creme text-chocolat font-sans selection:bg-terracotta selection:text-white">
+      
+      {/* HEADER */}
+      <header className="bg-creme border-b border-terracotta/20 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+          
+          {/* Logo / Nom minimaliste dans le header */}
+          <Link href="/" className="text-xl font-extrabold text-chocolat tracking-tight">
+            {`JE NE JOUIS PAS`}<span className="text-terracotta">{`.`}</span>
+          </Link>
+
+          {/* Navigation Desktop */}
+          <nav className="hidden md:flex items-center space-x-8 text-sm font-medium text-chocolat">
+            <Link href="#articles" className="hover:text-terracotta transition">{`Articles`}</Link>
+            <Link href="#ressources" className="hover:text-terracotta transition">{`Ressources`}</Link>
+            <Link href="#communaute" className="hover:text-terracotta transition">{`Communauté`}</Link>
+            <Link href="#apropos" className="hover:text-terracotta transition">{`À Propos`}</Link>
+            <span className="cursor-pointer hover:text-terracotta transition flex items-center space-x-1">
+              <span>{`Recherche`}</span>
+              <Search className="w-3.5 h-3.5" />
+            </span>
+          </nav>
+
+          {/* Bouton Inscription */}
+          <div className="hidden md:flex items-center">
+            <button className="bg-terracotta hover:bg-[#A8533B] text-white text-sm px-6 py-2.5 rounded-full font-medium transition shadow-sm">
+              {`S'inscrire`}
+            </button>
+          </div>
+
+          {/* Bouton Menu Mobile */}
+          <button 
+            className="md:hidden text-chocolat p-2"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Menu"
+          >
+            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
+
+        {/* Menu Mobile */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-creme border-t border-terracotta/20 px-4 py-6 space-y-4 shadow-lg">
+            <Link href="#articles" className="block text-chocolat font-medium">{`Articles`}</Link>
+            <Link href="#ressources" className="block text-chocolat font-medium">{`Ressources`}</Link>
+            <Link href="#communaute" className="block text-chocolat font-medium">{`Communauté`}</Link>
+            <Link href="#apropos" className="block text-chocolat font-medium">{`À Propos`}</Link>
+            <button className="w-full bg-terracotta text-white py-2.5 rounded-full text-sm font-medium">
+              {`S'inscrire`}
+            </button>
+          </div>
+        )}
+      </header>
+
+      {/* SECTION HERO : TITRE MASSIF À GAUCHE + BANNIÈRE PHOTO À DROITE */}
+      <section className="max-w-7xl mx-auto px-4 py-8 md:py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          {/* Titre massif empilé sur 3 lignes (style maquette) */}
+<div className="lg:col-span-4 space-y-1">
+  <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-terracotta leading-[0.9] tracking-tight font-display">
+    {`JE NE`}<br />
+    {`JOUIS`}<br />
+    {`PAS`}
+  </h1>
+</div>
+          {/* Grande bannière photo avec texte incrusté */}
+          <div className="lg:col-span-8 relative rounded-3xl overflow-hidden shadow-md h-64 md:h-80 flex items-center justify-center">
+            <img 
+              src="/women_talking.jpg" 
+              alt="Femmes bienveillantes" 
+              className="absolute inset-0 w-full h-full object-contain brightness-90"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            {/* Voile sombre chaleureux */}
+            <div className="absolute inset-0 bg-chocolat/15 backdrop-blur-[2px]"></div>
+            
+            <div className="relative z-10 text-center px-4">
+          
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* CONTENU PRINCIPAL EN GRILLE */}
+      <main className="max-w-7xl mx-auto px-4 pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          
+          {/* COLONNE GAUCHE (Articles & Infographie) */}
+          <div className="lg:col-span-8 space-y-12">
+            
+            {/* Articles Interactifs */}
+            <div className="space-y-6">
+              <h2 className="text-2xl font-bold text-chocolat border-b border-terracotta/20 pb-3">
+                {`Articles Interactifs`}
+              </h2>
+
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+                
+                {/* Grand article mis en avant */}
+                <div className="md:col-span-7 bg-white p-6 rounded-3xl border border-terracotta/10 shadow-sm flex flex-col justify-between space-y-6">
+                  <div className="space-y-4">
+                    <div className="rounded-2xl overflow-hidden bg-terracotta/20 h-48 relative">
+                      <img 
+                        src="/women_bubble.jpg" 
+                        alt="Illustration article" 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <h3 className="text-xl font-bold text-chocolat hover:text-terracotta transition cursor-pointer">
+                      {`Pourquoi 70% des femmes ne jouissent pas par pénétration`}
+                    </h3>
+                    <p className="text-sm text-chocolat/70 leading-relaxed">
+                      {`Pourquoi l'idée reçue du coït unique persiste ? Décryptage des blocages anatomiques et culturels.`}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center justify-between text-xs text-chocolat/60 pt-4 border-t border-terracotta/10">
+                    <div className="flex items-center space-x-3">
+                      <span className="flex items-center space-x-1">
+                        <Heart className="w-3.5 h-3.5 text-terracotta fill-terracotta" />
+                        <span>{`82`}</span>
+                      </span>
+                      <span className="flex items-center space-x-1">
+                        <MessageSquare className="w-3.5 h-3.5 text-terracotta" />
+                        <span>{`0`}</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Petites cartes d'articles secondaires */}
+                <div className="md:col-span-5 space-y-6 flex flex-col justify-between">
+                  
+                  <div className="bg-white p-4 rounded-2xl border border-terracotta/10 shadow-sm space-y-3">
+                    <div className="flex space-x-3 items-center">
+                      <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=200" alt="couple" className="w-16 h-16 rounded-xl object-cover" />
+                      <div>
+                        <h4 className="text-sm font-bold text-chocolat line-clamp-2">
+                          {`L'importance de la communication dans le couple`}
+                        </h4>
+                        <div className="flex space-x-3 text-xs text-chocolat/60 mt-2">
+                          <span>{`❤️ 4`}</span>
+                          <span>{`💬 0`}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white p-4 rounded-2xl border border-terracotta/10 shadow-sm space-y-3">
+                    <div className="flex space-x-3 items-center">
+                      <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200" alt="anatomie" className="w-16 h-16 rounded-xl object-cover" />
+                      <div>
+                        <h4 className="text-sm font-bold text-chocolat line-clamp-2">
+                          {`Enquête sur l'orgasme féminin`}
+                        </h4>
+                        <div className="flex space-x-3 text-xs text-chocolat/60 mt-2">
+                          <span>{`❤️ 6`}</span>
+                          <span>{`💬 0`}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white p-4 rounded-2xl border border-terracotta/10 shadow-sm space-y-3">
+                    <div className="flex space-x-3 items-center">
+                      <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200" alt="femme" className="w-16 h-16 rounded-xl object-cover" />
+                      <div>
+                        <h4 className="text-sm font-bold text-chocolat line-clamp-2">
+                          {`5 mythes sur l'orgasme féminin`}
+                        </h4>
+                        <div className="flex space-x-3 text-xs text-chocolat/60 mt-2">
+                          <span>{`❤️ 15`}</span>
+                          <span>{`💬 0`}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+            {/* Infographie sur le Plaisir Féminin */}
+            <div className="bg-white p-8 rounded-3xl border border-terracotta/10 shadow-sm space-y-6">
+              <h2 className="text-2xl font-bold text-chocolat text-center">
+                {`Infographie sur le Plaisir Féminin`}
+              </h2>
+              <div className="bg-creme p-6 rounded-2xl border border-terracotta/15 flex flex-col md:flex-row items-center justify-around gap-6 text-center">
+                <div className="space-y-2 max-w-xs">
+                  <div className="w-12 h-12 bg-terracotta text-white rounded-full flex items-center justify-center mx-auto font-bold">{`1`}</div>
+                  <h4 className="font-bold text-chocolat">{`Anatomie & Cycle`}</h4>
+                  <p className="text-xs text-chocolat/70">{`Cartographie complète et repères biologiques essentiels.`}</p>
+                </div>
+                <div className="space-y-2 max-w-xs">
+                  <div className="w-12 h-12 bg-terracotta text-white rounded-full flex items-center justify-center mx-auto font-bold">{`2`}</div>
+                  <h4 className="font-bold text-chocolat">{`Zones Érogènes`}</h4>
+                  <p className="text-xs text-chocolat/70">{`Comprendre la sensibilité externe et interne sans complexe.`}</p>
+                </div>
+                <div className="space-y-2 max-w-xs">
+                  <div className="w-12 h-12 bg-terracotta text-white rounded-full flex items-center justify-center mx-auto font-bold">{`3`}</div>
+                  <h4 className="font-bold text-chocolat">{`Plaisir & Lâcher-prise`}</h4>
+                  <p className="text-xs text-chocolat/70">{`Sortir de la performance pour retrouver le bien-être.`}</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* COLONNE DROITE / SIDEBAR */}
+          <div className="lg:col-span-4 space-y-8">
+            
+            {/* Catégories Populaires */}
+            <div className="bg-white p-6 rounded-3xl border border-terracotta/10 shadow-sm space-y-4">
+              <h3 className="font-bold text-lg text-chocolat border-b border-terracotta/10 pb-3">
+                {`Catégories Populaires`}
+              </h3>
+              <ul className="space-y-2.5 text-sm text-chocolat/80 font-medium">
+                <li className="hover:text-terracotta cursor-pointer transition flex items-center space-x-2">
+                  <span className="text-terracotta">{`›`}</span> <span>{`Catégories`}</span>
+                </li>
+                <li className="hover:text-terracotta cursor-pointer transition flex items-center space-x-2">
+                  <span className="text-terracotta">{`›`}</span> <span>{`Ressources`}</span>
+                </li>
+                <li className="hover:text-terracotta cursor-pointer transition flex items-center space-x-2">
+                  <span className="text-terracotta">{`›`}</span> <span>{`Anorgasmie`}</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Derniers Commentaires */}
+            <div className="bg-white p-6 rounded-3xl border border-terracotta/10 shadow-sm space-y-4">
+              <h3 className="font-bold text-lg text-chocolat border-b border-terracotta/10 pb-3">
+                {`Derniers Commentaires`}
+              </h3>
+              
+              <div className="space-y-4 text-xs">
+                <div className="space-y-1">
+                  <p className="font-semibold text-chocolat flex items-center space-x-1.5">
+                    <span className="w-2 h-2 rounded-full bg-terracotta"></span>
+                    <span>{`L'importance de la communication dans le couple`}</span>
+                  </p>
+                  <p className="text-chocolat/60 pl-3.5">{`3 commentaires • il y a 5 minutes`}</p>
+                </div>
+
+                <div className="space-y-1">
+                  <p className="font-semibold text-chocolat flex items-center space-x-1.5">
+                    <span className="w-2 h-2 rounded-full bg-terracotta"></span>
+                    <span>{`L'importance de la communication dans le couple`}</span>
+                  </p>
+                  <p className="text-chocolat/60 pl-3.5">{`3 commentaires • il y a 15 minutes`}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Newsletter */}
+            <div className="bg-white p-6 rounded-3xl border border-terracotta/10 shadow-sm space-y-4">
+              <h3 className="font-bold text-lg text-chocolat">{`Newsletter`}</h3>
+              <p className="text-xs text-chocolat/70 leading-relaxed">
+                {`Inscrivez-vous pour recevoir nos actualités et conseils exclusifs.`}
+              </p>
+              
+              <div className="relative pt-1">
+                <input 
+                  type="email" 
+                  placeholder="Email address..." 
+                  className="w-full bg-creme text-xs rounded-full pl-4 pr-10 py-2.5 border border-terracotta/30 focus:outline-none focus:border-terracotta text-chocolat"
+                />
+                <button className="absolute right-1.5 top-[calc(50%+2px)] -translate-y-1/2 bg-terracotta hover:bg-[#A8533B] text-white p-1.5 rounded-full transition">
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Mini Footer Sidebar */}
+            <div className="bg-chocolat text-creme p-6 rounded-3xl space-y-4 text-xs">
+              <div className="space-y-1">
+                <p className="font-bold text-sm text-terracotta">{`JE NE JOUIS PAS`}</p>
+                <p className="text-creme/70">{`Espace d'échange et d'émancipation.`}</p>
+              </div>
+              <div className="flex space-x-3 pt-2 text-creme/80">
+                <span className="hover:text-terracotta cursor-pointer">{`Ig`}</span>
+                <span className="hover:text-terracotta cursor-pointer">{`Fb`}</span>
+                <span className="hover:text-terracotta cursor-pointer">{`Yt`}</span>
+                <span className="hover:text-terracotta cursor-pointer">{`Pt`}</span>
+              </div>
+              <div className="pt-2 border-t border-creme/10 text-[10px] text-creme/50">
+                {`Copyright je ne jouis pas`}
+              </div>
+            </div>
+
+          </div>
+
         </div>
       </main>
+
     </div>
   );
 }
