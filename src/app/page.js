@@ -8,90 +8,168 @@ export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-creme text-chocolat font-sans selection:bg-terracotta selection:text-white">
+    <div className="min-h-screen text-chocolat font-sans selection:bg-terracotta selection:text-white">
       
-      {/* HEADER */}
-      <header className="bg-creme border-b border-terracotta/20 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+     {/* HEADER AVEC PREMIER LIEN ALIGNÉ SUR LA PHOTO DU HERO */}
+      <header className="bg-[#D8836A] text-white sticky top-0 z-50 transition-all duration-300">
+        <div className="max-w-7xl mx-auto px-4 py-5 flex items-center justify-between">
           
-          {/* Logo / Nom minimaliste dans le header */}
-          <Link href="/" className="text-xl font-extrabold text-chocolat tracking-tight">
-            {`JE NE JOUIS PAS`}<span className="text-terracotta">{`.`}</span>
-          </Link>
+          {/* Grille interne pour forcer l'alignement exact avec le Hero (3 cols à gauche pour le logo) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 w-full items-center gap-6">
+            
+            {/* Logo dans les 3 premières colonnes (aligné avec le titre "JE NE JOUIS PAS") */}
+            <div className="lg:col-span-3 flex justify-between lg:justify-start items-center">
+              <Link href="/" className="text-2xl md:text-3xl font-extrabold text-white tracking-tight font-display hover:opacity-90 transition">
+                {`JNJP`}<span className="text-chocolat">{`.`}</span>
+              </Link>
 
-          {/* Navigation Desktop */}
-          <nav className="hidden md:flex items-center space-x-8 text-sm font-medium text-chocolat">
-            <Link href="#articles" className="hover:text-terracotta transition">{`Articles`}</Link>
-            <Link href="#ressources" className="hover:text-terracotta transition">{`Ressources`}</Link>
-            <Link href="#communaute" className="hover:text-terracotta transition">{`Communauté`}</Link>
-            <Link href="#apropos" className="hover:text-terracotta transition">{`À Propos`}</Link>
-            <span className="cursor-pointer hover:text-terracotta transition flex items-center space-x-1">
-              <span>{`Recherche`}</span>
-              <Search className="w-3.5 h-3.5" />
-            </span>
-          </nav>
+              {/* Bouton Menu Mobile */}
+              <button 
+                className="lg:hidden text-white p-2"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label="Menu"
+              >
+                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
 
-          {/* Bouton Inscription */}
-          <div className="hidden md:flex items-center">
-            <button className="bg-terracotta hover:bg-[#A8533B] text-white text-sm px-6 py-2.5 rounded-full font-medium transition shadow-sm">
-              {`S'inscrire`}
-            </button>
+            {/* Navigation & Bouton dans les 9 colonnes suivantes (alignés avec la photo du Hero) */}
+            <div className="hidden lg:col-span-9 lg:flex items-center justify-between">
+              
+              {/* Navigation Desktop */}
+              <nav className="flex items-center space-x-12 text-sm font-medium text-white/90">
+                <Link href="#articles" className="hover:text-chocolat transition duration-200 tracking-wide">{`Articles`}</Link>
+                <Link href="#ressources" className="hover:text-chocolat transition duration-200 tracking-wide">{`Ressources`}</Link>
+                <Link href="#communaute" className="hover:text-chocolat transition duration-200 tracking-wide">{`Communauté`}</Link>
+                <Link href="#apropos" className="hover:text-chocolat transition duration-200 tracking-wide">{`À Propos`}</Link>
+                <span className="cursor-pointer hover:text-chocolat transition duration-200 flex items-center space-x-1.5 tracking-wide">
+                  <span>{`Recherche`}</span>
+                  <Search className="w-3.5 h-3.5" />
+                </span>
+              </nav>
+
+              {/* Bouton Inscription */}
+              <div>
+                <button className="bg-terracotta hover:bg-[#C86D51] text-white text-sm px-7 py-2.5 rounded-full font-semibold transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 border border-white/20">
+                  {`S'inscrire`}
+                </button>
+              </div>
+
+            </div>
+
           </div>
 
-          {/* Bouton Menu Mobile */}
-          <button 
-            className="md:hidden text-chocolat p-2"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Menu"
-          >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
         </div>
 
         {/* Menu Mobile */}
         {isMenuOpen && (
-          <div className="md:hidden bg-creme border-t border-terracotta/20 px-4 py-6 space-y-4 shadow-lg">
-            <Link href="#articles" className="block text-chocolat font-medium">{`Articles`}</Link>
-            <Link href="#ressources" className="block text-chocolat font-medium">{`Ressources`}</Link>
-            <Link href="#communaute" className="block text-chocolat font-medium">{`Communauté`}</Link>
-            <Link href="#apropos" className="block text-chocolat font-medium">{`À Propos`}</Link>
-            <button className="w-full bg-terracotta text-white py-2.5 rounded-full text-sm font-medium">
+          <div className="lg:hidden bg-[#D8836A] text-white px-6 py-6 space-y-4 shadow-lg border-t border-white/10">
+            <Link href="#articles" className="block text-white font-medium">{`Articles`}</Link>
+            <Link href="#ressources" className="block text-white font-medium">{`Ressources`}</Link>
+            <Link href="#communaute" className="block text-white font-medium">{`Communauté`}</Link>
+            <Link href="#apropos" className="block text-white font-medium">{`À Propos`}</Link>
+            <button className="w-full bg-terracotta hover:bg-[#C86D51] text-white py-3 rounded-full text-sm font-semibold transition">
               {`S'inscrire`}
             </button>
           </div>
         )}
       </header>
-
-      {/* SECTION HERO : TITRE MASSIF À GAUCHE + BANNIÈRE PHOTO À DROITE */}
+    {/* SECTION HERO : PHRASE POSITIONNÉE PLUS BAS DANS LA PHOTO */}
       <section className="max-w-7xl mx-auto px-4 py-8 md:py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
           
-          {/* Titre massif empilé sur 3 lignes (style maquette) */}
-<div className="lg:col-span-4 space-y-1">
-  <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-terracotta leading-[0.9] tracking-tight font-display">
-    {`JE NE`}<br />
-    {`JOUIS`}<br />
-    {`PAS`}
-  </h1>
-</div>
-          {/* Grande bannière photo avec texte incrusté */}
-          <div className="lg:col-span-8 relative rounded-3xl overflow-hidden shadow-md h-64 md:h-80 flex items-center justify-center">
+          {/* Titre */}
+          <div className="lg:col-span-3 transition-all duration-700 ease-out transform translate-y-0 opacity-100 animate-in fade-in slide-in-from-bottom-4">
+            <h1 className="text-6xl sm:text-7xl lg:text-[11rem] xl:text-8xl font-bold text-terracotta leading-[0.85] tracking-tight font-display uppercase">
+              {`JE NE`}<br />
+              {`JOUIS PAS`}
+            </h1>
+          </div>
+
+          {/* Bannière photo avec la phrase alignée en bas (`items-end pb-8 sm:pb-12`) */}
+          <div className="lg:col-span-9 relative rounded-3xl overflow-hidden shadow-md h-80 sm:h-[400px] md:h-[500px] flex items-end justify-center group transition-all duration-1000 ease-out animate-in fade-in zoom-in-95">
             <img 
-              src="/women_talking.jpg" 
+              src="/women_bubble.jpg" 
               alt="Femmes bienveillantes" 
-              className="absolute inset-0 w-full h-full object-contain brightness-90"
+              className="absolute inset-0 w-full h-full object-cover object-[center_35%] transform group-hover:scale-105 transition-transform duration-700 ease-out"
             />
-            {/* Voile sombre chaleureux */}
-            <div className="absolute inset-0 bg-chocolat/15 backdrop-blur-[2px]"></div>
+            {/* Dégradé doux en bas pour faire ressortir le texte */}
+            <div className="absolute inset-0 bg-gradient-to-t from-chocolat/60 via-chocolat/10 to-transparent"></div>
             
-            <div className="relative z-10 text-center px-4">
-          
+            {/* Phrase placée plus bas */}
+            <div className="relative z-10 text-center px-6 pb-8 sm:pb-12 transform group-hover:scale-102 transition-transform duration-500">
+              <p className="text-white text-xl sm:text-2xl md:text-3xl font-bold tracking-wide drop-shadow-md font-display">
+                {`Découvrez votre plaisir, sans tabou.`}
+              </p>
             </div>
           </div>
 
         </div>
       </section>
+      {/* SECTION ARTICLES À LA UNE */}
+      <section className="max-w-7xl mx-auto px-4 py-12 md:py-16">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-chocolat font-display tracking-tight">
+            {`À la une`}
+          </h2>
+          <span className="text-sm font-semibold text-terracotta hover:text-chocolat transition cursor-pointer">
+            {`Voir tous les articles →`}
+          </span>
+        </div>
 
+        {/* Grille des articles */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+          {/* Article principal (occupe 2 colonnes) */}
+          <div className="md:col-span-2 group cursor-pointer">
+            <div className="relative rounded-3xl overflow-hidden shadow-md bg-white aspect-[16/9] mb-4">
+              <img 
+                src="/women_talking.jpg" 
+                alt="Article à la une" 
+                className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+              />
+              <div className="absolute top-4 left-4 bg-terracotta text-white text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
+                {`Dossier`}
+              </div>
+            </div>
+            <p className="text-xs uppercase tracking-wider text-terracotta font-semibold mb-1">
+              {`Intimité & Parole • 5 min de lecture`}
+            </p>
+            <h3 className="text-2xl md:text-3xl font-bold text-chocolat group-hover:text-terracotta transition font-display">
+              {`Pourquoi 70% des femmes ne jouissent pas par pénétration : brisons les mythes`}
+            </h3>
+            <p className="text-chocolat/80 text-sm mt-2 line-clamp-2">
+              {`Focus anatomique et culturel sur le plaisir féminin au-delà des schémas traditionnels de la performance.`}
+            </p>
+          </div>
+
+          {/* Article secondaire (occupe 1 colonne) */}
+          <div className="group cursor-pointer flex flex-col justify-between">
+            <div>
+              <div className="relative rounded-3xl overflow-hidden shadow-md bg-white aspect-[4/3] mb-4">
+                <img 
+                  src="/women_talking.jpg" 
+                  alt="Article secondaire" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                />
+                <div className="absolute top-4 left-4 bg-chocolat text-creme text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
+                  {`Témoignage`}
+                </div>
+              </div>
+              <p className="text-xs uppercase tracking-wider text-terracotta font-semibold mb-1">
+                {`Récit • 3 min de lecture`}
+              </p>
+              <h3 className="text-xl font-bold text-chocolat group-hover:text-terracotta transition font-display">
+                {`"J'ai apprivoisé mon corps à 30 ans passés"`}
+              </h3>
+              <p className="text-chocolat/80 text-sm mt-2 line-clamp-2">
+                {`Le parcours libérateur d'une femme qui a réécrit son rapport à l'intime et au lâcher-prise.`}
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </section>
       {/* CONTENU PRINCIPAL EN GRILLE */}
       <main className="max-w-7xl mx-auto px-4 pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
