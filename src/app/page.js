@@ -1,387 +1,396 @@
 'use client';
 
 import { useState } from 'react';
-import { Search, User, Menu, X, Heart, MessageSquare, Clock, ArrowRight, Send } from 'lucide-react';
-import Link from 'next/link';
 
 export default function Home() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // Collection d'articles pour la section "À la une"
+  const articlesCatalogue = [
+    {
+      id: 1,
+      tag: "Grand Dossier",
+      tempsLecture: "8 min",
+      titre: "Pourquoi 70% des femmes n'atteignent pas l'orgasme par la simple pénétration ?",
+      description: "Déconstruction d'un mythe anatomique tenace et éclairage médical sur le plaisir clitoridien.",
+      image: "/femme_bain.jpg",
+      source: "Kinsey Institute (2018)",
+      likes: 342
+    },
+    {
+      id: 2,
+      tag: "Psycho & Corps",
+      tempsLecture: "6 min",
+      titre: "Apprendre à lâcher prise : libérer le mental pour reconnecter au corps",
+      description: "L'hypercontrôle et le spectatoring : comprendre les mécanismes du blocage et retrouver la présence.",
+      image: "/cowboy.jpg",
+      source: "Masters & Johnson Research",
+      likes: 215
+    },
+    {
+      id: 3,
+      tag: "Anatomie & Science",
+      tempsLecture: "10 min",
+      titre: "La cartographie invisible : 8 000 terminaisons nerveuses en action",
+      description: "Exploration haute précision du réseau clitoridien grâce aux avancées de l'imagerie médicale.",
+      image: "/orchidee.jpg",
+      source: "Dr. Helen O'Connell",
+      likes: 512
+    },
+    {
+      id: 4,
+      tag: "Désir & Rythmes",
+      tempsLecture: "7 min",
+      titre: "Fluctuations hormonales et libido : écouter son cycle sans culpabilité",
+      description: "Comment les phases du cycle menstruel influencent l'énergie érotique et la sensibilité tactile.",
+      image: "/femme_miroir.jpg",
+      source: "Journal of Endocrinology (2021)",
+      likes: 189
+    },
+    {
+      id: 5,
+      tag: "Communication",
+      tempsLecture: "5 min",
+      titre: "Exprimer ses désirs sans gêne : les clés du dialogue intime",
+      description: "Des outils concrets et des formulations bienveillantes pour partager ses besoins en toute sérénité.",
+      image: "/bouche_orange.jpg",
+      source: "Société Française de Sexologie",
+      likes: 276
+    },
+    {
+      id: 6,
+      tag: "Somatic Pleasure",
+      tempsLecture: "9 min",
+      titre: "La mémoire corporelle du plaisir : reconnecter par le toucher somatique",
+      description: "Travailler la conscience corporelle pour débloquer les tensions et réveiller la sensibilité nerveuse.",
+      image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=1000&q=80",
+      source: "Somatic Experiencing Institute",
+      likes: 403
+    }
+  ];
+
+  // Index de la page de 3 articles
+  const [pageIndex, setPageIndex] = useState(0);
+  const articlesPerPage = 3;
+  const totalPages = Math.ceil(articlesCatalogue.length / articlesPerPage);
+
+  // Gestion des likes interactifs réels
+  const [likesState, setLikesState] = useState(
+    articlesCatalogue.reduce((acc, curr) => ({ ...acc, [curr.id]: curr.likes }), {})
+  );
+
+  const toggleLike = (id) => {
+    setLikesState((prev) => ({
+      ...prev,
+      [id]: prev[id] + 1
+    }));
+  };
+
+  const prevSlide = () => {
+    setPageIndex((prev) => (prev === 0 ? totalPages - 1 : prev - 1));
+  };
+
+  const nextSlide = () => {
+    setPageIndex((prev) => (prev === totalPages - 1 ? 0 : prev + 1));
+  };
+
+  const currentArticles = articlesCatalogue.slice(
+    pageIndex * articlesPerPage,
+    (pageIndex + 1) * articlesPerPage
+  );
 
   return (
-    <div className="min-h-screen text-chocolat font-sans selection:bg-terracotta selection:text-white">
+    <div className="min-h-screen bg-[#FAF4EF] text-[#3A2521] selection:bg-terracotta selection:text-white font-sans">
       
-     {/* HEADER AVEC PREMIER LIEN ALIGNÉ SUR LA PHOTO DU HERO */}
-      <header className="bg-[#D8836A] text-white sticky top-0 z-50 transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-4 py-5 flex items-center justify-between">
-          
-          {/* Grille interne pour forcer l'alignement exact avec le Hero (3 cols à gauche pour le logo) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 w-full items-center gap-6">
-            
-            {/* Logo dans les 3 premières colonnes (aligné avec le titre "JE NE JOUIS PAS") */}
-            <div className="lg:col-span-3 flex justify-between lg:justify-start items-center">
-              <Link href="/" className="text-2xl md:text-3xl font-extrabold text-white tracking-tight font-display hover:opacity-90 transition">
-                {`JNJP`}<span className="text-chocolat">{`.`}</span>
-              </Link>
+      {/* 🌟 HEADER PRINCIPAL HAUT CONTRASTE */}
+      <header className="sticky top-0 z-50 bg-[#221310] text-[#FAF4EF] shadow-lg">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <a href="#" className="flex items-center gap-2 group">
+            <span className="text-xl sm:text-2xl font-serif font-extrabold tracking-[0.15em] text-[#FAF4EF] uppercase">
+              JE NE JOUIS PAS
+            </span>
+            <span className="w-2.5 h-2.5 rounded-full bg-[#D8836A] inline-block"></span>
+          </a>
 
-              {/* Bouton Menu Mobile */}
-              <button 
-                className="lg:hidden text-white p-2"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                aria-label="Menu"
-              >
-                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </button>
-            </div>
+          <nav className="hidden lg:flex items-center space-x-8 text-sm font-semibold text-[#FAF4EF]">
+            <a href="#articles" className="hover:text-[#D8836A] transition-colors">Articles & Science</a>
+            <a href="#communaute" className="hover:text-[#D8836A] transition-colors">Chat</a>
+            <a href="#podcasts" className="hover:text-[#D8836A] transition-colors">Podcasts</a>
+            <a href="#ressources" className="hover:text-[#D8836A] transition-colors">Guides Pratiques</a>
+            <a href="#a-propos" className="hover:text-[#D8836A] transition-colors">À Propos</a>
+          </nav>
 
-            {/* Navigation & Bouton dans les 9 colonnes suivantes (alignés avec la photo du Hero) */}
-            <div className="hidden lg:col-span-9 lg:flex items-center justify-between">
-              
-              {/* Navigation Desktop */}
-              <nav className="flex items-center space-x-12 text-sm font-medium text-white/90">
-                <Link href="#articles" className="hover:text-chocolat transition duration-200 tracking-wide">{`Articles`}</Link>
-                <Link href="#ressources" className="hover:text-chocolat transition duration-200 tracking-wide">{`Ressources`}</Link>
-                <Link href="#communaute" className="hover:text-chocolat transition duration-200 tracking-wide">{`Communauté`}</Link>
-                <Link href="#apropos" className="hover:text-chocolat transition duration-200 tracking-wide">{`À Propos`}</Link>
-                <span className="cursor-pointer hover:text-chocolat transition duration-200 flex items-center space-x-1.5 tracking-wide">
-                  <span>{`Recherche`}</span>
-                  <Search className="w-3.5 h-3.5" />
-                </span>
-              </nav>
-
-              {/* Bouton Inscription */}
-              <div>
-                <button className="bg-terracotta hover:bg-[#C86D51] text-white text-sm px-7 py-2.5 rounded-full font-semibold transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 border border-white/20">
-                  {`S'inscrire`}
-                </button>
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-        {/* Menu Mobile */}
-        {isMenuOpen && (
-          <div className="lg:hidden bg-[#D8836A] text-white px-6 py-6 space-y-4 shadow-lg border-t border-white/10">
-            <Link href="#articles" className="block text-white font-medium">{`Articles`}</Link>
-            <Link href="#ressources" className="block text-white font-medium">{`Ressources`}</Link>
-            <Link href="#communaute" className="block text-white font-medium">{`Communauté`}</Link>
-            <Link href="#apropos" className="block text-white font-medium">{`À Propos`}</Link>
-            <button className="w-full bg-terracotta hover:bg-[#C86D51] text-white py-3 rounded-full text-sm font-semibold transition">
-              {`S'inscrire`}
+          <div>
+            <button className="bg-[#D8836A] hover:bg-[#C86D51] text-white text-sm font-bold px-6 py-2.5 rounded-full transition-all duration-300 shadow-md flex items-center gap-2 transform hover:scale-105">
+              <span>✨</span>
+              <span>S&apos;abonner</span>
             </button>
           </div>
-        )}
-      </header>
-    {/* SECTION HERO : PHRASE POSITIONNÉE PLUS BAS DANS LA PHOTO */}
-      <section className="max-w-7xl mx-auto px-4 py-8 md:py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-          
-          {/* Titre */}
-          <div className="lg:col-span-3 transition-all duration-700 ease-out transform translate-y-0 opacity-100 animate-in fade-in slide-in-from-bottom-4">
-            <h1 className="text-6xl sm:text-7xl lg:text-[11rem] xl:text-8xl font-bold text-terracotta leading-[0.85] tracking-tight font-display uppercase">
-              {`JE NE`}<br />
-              {`JOUIS PAS`}
-            </h1>
-          </div>
-
-          {/* Bannière photo avec la phrase alignée en bas (`items-end pb-8 sm:pb-12`) */}
-          <div className="lg:col-span-9 relative rounded-3xl overflow-hidden shadow-md h-80 sm:h-[400px] md:h-[500px] flex items-end justify-center group transition-all duration-1000 ease-out animate-in fade-in zoom-in-95">
-            <img 
-              src="/women_bubble.jpg" 
-              alt="Femmes bienveillantes" 
-              className="absolute inset-0 w-full h-full object-cover object-[center_35%] transform group-hover:scale-105 transition-transform duration-700 ease-out"
-            />
-            {/* Dégradé doux en bas pour faire ressortir le texte */}
-            <div className="absolute inset-0 bg-gradient-to-t from-chocolat/60 via-chocolat/10 to-transparent"></div>
-            
-            {/* Phrase placée plus bas */}
-            <div className="relative z-10 text-center px-6 pb-8 sm:pb-12 transform group-hover:scale-102 transition-transform duration-500">
-              <p className="text-white text-xl sm:text-2xl md:text-3xl font-bold tracking-wide drop-shadow-md font-display">
-                {`Découvrez votre plaisir, sans tabou.`}
-              </p>
-            </div>
-          </div>
-
         </div>
-      </section>
-      {/* SECTION ARTICLES À LA UNE */}
-      <section className="max-w-7xl mx-auto px-4 py-12 md:py-16">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-chocolat font-display tracking-tight">
-            {`À la une`}
-          </h2>
-          <span className="text-sm font-semibold text-terracotta hover:text-chocolat transition cursor-pointer">
-            {`Voir tous les articles →`}
+
+        <div className="bg-[#1C0E0C] border-t border-[#D8836A]/20 py-2.5 px-4 text-center text-xs sm:text-sm text-[#FAF4EF]/90 flex items-center justify-center gap-2">
+          <span className="text-[#D8836A] animate-bounce inline-block transform hover:scale-125 transition-transform cursor-pointer">
+            🔥
           </span>
+          <span>
+            Nouveau numéro disponible :{" "}
+            <strong className="font-bold text-white">&quot;Réinventer la Jouissance Somatique&quot;</strong>
+          </span>
+          <a href="#articles" className="text-[#D8836A] hover:text-white underline font-medium ml-1 transition">
+            Découvrir →
+          </a>
         </div>
+      </header>
 
-        {/* Grille des articles */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          
-          {/* Article principal (occupe 2 colonnes) */}
-          <div className="md:col-span-2 group cursor-pointer">
-            <div className="relative rounded-3xl overflow-hidden shadow-md bg-white aspect-[16/9] mb-4">
+      {/* 🌟 SECTION HERO */}
+      <section className="max-w-7xl mx-auto px-4 py-10 md:py-14">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="lg:col-span-4 space-y-6">
+            <div className="inline-flex items-center gap-2 bg-[#3A2521] text-[#FAF4EF] text-xs font-bold px-3.5 py-1.5 rounded-full uppercase tracking-widest shadow-sm">
+              <span className="text-[#E29578]">✨</span>
+              <span>Édition #04 • Octobre</span>
+            </div>
+
+            <h1 className="text-[5rem] sm:text-[6rem] lg:text-[6.5rem] font-serif font-normal text-[#C86D51] leading-[0.85] tracking-wide uppercase">
+              JE NE<br />
+              JOUIS<br />
+              PAS
+            </h1>
+            
+            <p className="text-[#C86D51] text-lg sm:text-xl font-medium leading-relaxed font-sans pt-1">
+              Découvrez votre plaisir,<br />
+              sans tabou.
+            </p>
+
+            <div className="pt-2 flex items-center gap-3">
+              <a 
+                href="#articles" 
+                className="inline-flex items-center gap-2 bg-[#3A2521] text-[#FAF4EF] hover:bg-[#C86D51] transition-all px-7 py-3.5 rounded-full text-sm font-bold shadow-lg transform hover:-translate-y-0.5"
+              >
+                <span>Voir les articles</span>
+                <span>↓</span>
+              </a>
+            </div>
+          </div>
+
+          <div className="lg:col-span-8 relative">
+            <div className="absolute -inset-3 bg-gradient-to-r from-[#C86D51]/40 via-[#E29578]/30 to-[#3A2521]/30 rounded-[3rem] blur-xl opacity-80 pointer-events-none"></div>
+
+            <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl h-80 sm:h-[480px] md:h-[560px] flex items-center justify-center group border-2 border-[#3A2521]/20 bg-[#3A2521]">
               <img 
-                src="/women_talking.jpg" 
-                alt="Article à la une" 
-                className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                src="/women_bubble.jpg" 
+                alt="Femmes bienveillantes" 
+                className="absolute inset-0 w-full h-full object-cover object-[center_35%] transform group-hover:scale-105 transition-transform duration-1000 ease-out brightness-90"
               />
-              <div className="absolute top-4 left-4 bg-terracotta text-white text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
-                {`Dossier`}
-              </div>
-            </div>
-            <p className="text-xs uppercase tracking-wider text-terracotta font-semibold mb-1">
-              {`Intimité & Parole • 5 min de lecture`}
-            </p>
-            <h3 className="text-2xl md:text-3xl font-bold text-chocolat group-hover:text-terracotta transition font-display">
-              {`Pourquoi 70% des femmes ne jouissent pas par pénétration : brisons les mythes`}
-            </h3>
-            <p className="text-chocolat/80 text-sm mt-2 line-clamp-2">
-              {`Focus anatomique et culturel sur le plaisir féminin au-delà des schémas traditionnels de la performance.`}
-            </p>
-          </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#3A2521]/80 via-[#3A2521]/20 to-transparent"></div>
 
-          {/* Article secondaire (occupe 1 colonne) */}
-          <div className="group cursor-pointer flex flex-col justify-between">
-            <div>
-              <div className="relative rounded-3xl overflow-hidden shadow-md bg-white aspect-[4/3] mb-4">
-                <img 
-                  src="/women_talking.jpg" 
-                  alt="Article secondaire" 
-                  className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                />
-                <div className="absolute top-4 left-4 bg-chocolat text-creme text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
-                  {`Témoignage`}
+              <div className="absolute bottom-6 left-6 right-6 sm:right-auto bg-[#3A2521]/95 backdrop-blur-md text-white p-5 rounded-3xl shadow-2xl border border-[#C86D51]/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 max-w-lg">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <p className="text-xs font-bold uppercase tracking-wider text-[#E29578]">Salon de discussion libre</p>
+                  </div>
+                  <p className="text-xs text-white/80 font-sans leading-snug">
+                    Échangez en direct sans aucun jugement avec la communauté.
+                  </p>
                 </div>
+                <a 
+                  href="#communaute" 
+                  className="bg-[#C86D51] hover:bg-[#D8836A] text-white text-xs font-bold px-5 py-2.5 rounded-2xl transition shadow-md whitespace-nowrap flex items-center gap-1.5 self-stretch sm:self-auto justify-center"
+                >
+                  <span>Rejoindre</span>
+                  <span>→</span>
+                </a>
               </div>
-              <p className="text-xs uppercase tracking-wider text-terracotta font-semibold mb-1">
-                {`Récit • 3 min de lecture`}
-              </p>
-              <h3 className="text-xl font-bold text-chocolat group-hover:text-terracotta transition font-display">
-                {`"J'ai apprivoisé mon corps à 30 ans passés"`}
-              </h3>
-              <p className="text-chocolat/80 text-sm mt-2 line-clamp-2">
-                {`Le parcours libérateur d'une femme qui a réécrit son rapport à l'intime et au lâcher-prise.`}
-              </p>
             </div>
           </div>
-
         </div>
       </section>
-      {/* CONTENU PRINCIPAL EN GRILLE */}
-      <main className="max-w-7xl mx-auto px-4 pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          
-          {/* COLONNE GAUCHE (Articles & Infographie) */}
-          <div className="lg:col-span-8 space-y-12">
-            
-            {/* Articles Interactifs */}
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-chocolat border-b border-terracotta/20 pb-3">
-                {`Articles Interactifs`}
+
+      {/* 🌟 BANDEAU MANIFESTO INTERACTIF */}
+      <section id="pacte" className="max-w-7xl mx-auto px-4 py-8">
+        <div className="bg-[#3A2521] text-[#FAF4EF] rounded-[2.5rem] p-8 md:p-14 relative overflow-hidden shadow-2xl border border-[#C86D51]/30 group">
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#C86D51]/20 rounded-full blur-3xl pointer-events-none"></div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
+            <div className="lg:col-span-7 space-y-6">
+              <div className="inline-flex items-center gap-2 bg-[#C86D51]/20 border border-[#C86D51]/40 px-4 py-1.5 rounded-full text-xs font-bold text-[#E29578] uppercase tracking-widest font-sans">
+                <span className="w-2 h-2 rounded-full bg-[#E29578] animate-ping"></span>
+                <span>Premier Magazine 100% Plaisir Féminin en France</span>
+              </div>
+
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold leading-tight tracking-tight text-[#FAF4EF]">
+                Le Pacte du Plaisir :<br />
+                <span className="text-[#E29578] italic font-normal">Sans filtre, sans honte, sans tabou.</span>
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-                
-                {/* Grand article mis en avant */}
-                <div className="md:col-span-7 bg-white p-6 rounded-3xl border border-terracotta/10 shadow-sm flex flex-col justify-between space-y-6">
-                  <div className="space-y-4">
-                    <div className="rounded-2xl overflow-hidden bg-terracotta/20 h-48 relative">
-                      <img 
-                        src="/women_bubble.jpg" 
-                        alt="Illustration article" 
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <h3 className="text-xl font-bold text-chocolat hover:text-terracotta transition cursor-pointer">
-                      {`Pourquoi 70% des femmes ne jouissent pas par pénétration`}
-                    </h3>
-                    <p className="text-sm text-chocolat/70 leading-relaxed">
-                      {`Pourquoi l'idée reçue du coït unique persiste ? Décryptage des blocages anatomiques et culturels.`}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center justify-between text-xs text-chocolat/60 pt-4 border-t border-terracotta/10">
-                    <div className="flex items-center space-x-3">
-                      <span className="flex items-center space-x-1">
-                        <Heart className="w-3.5 h-3.5 text-terracotta fill-terracotta" />
-                        <span>{`82`}</span>
-                      </span>
-                      <span className="flex items-center space-x-1">
-                        <MessageSquare className="w-3.5 h-3.5 text-terracotta" />
-                        <span>{`0`}</span>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Petites cartes d'articles secondaires */}
-                <div className="md:col-span-5 space-y-6 flex flex-col justify-between">
-                  
-                  <div className="bg-white p-4 rounded-2xl border border-terracotta/10 shadow-sm space-y-3">
-                    <div className="flex space-x-3 items-center">
-                      <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=200" alt="couple" className="w-16 h-16 rounded-xl object-cover" />
-                      <div>
-                        <h4 className="text-sm font-bold text-chocolat line-clamp-2">
-                          {`L'importance de la communication dans le couple`}
-                        </h4>
-                        <div className="flex space-x-3 text-xs text-chocolat/60 mt-2">
-                          <span>{`❤️ 4`}</span>
-                          <span>{`💬 0`}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-white p-4 rounded-2xl border border-terracotta/10 shadow-sm space-y-3">
-                    <div className="flex space-x-3 items-center">
-                      <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200" alt="anatomie" className="w-16 h-16 rounded-xl object-cover" />
-                      <div>
-                        <h4 className="text-sm font-bold text-chocolat line-clamp-2">
-                          {`Enquête sur l'orgasme féminin`}
-                        </h4>
-                        <div className="flex space-x-3 text-xs text-chocolat/60 mt-2">
-                          <span>{`❤️ 6`}</span>
-                          <span>{`💬 0`}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-white p-4 rounded-2xl border border-terracotta/10 shadow-sm space-y-3">
-                    <div className="flex space-x-3 items-center">
-                      <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200" alt="femme" className="w-16 h-16 rounded-xl object-cover" />
-                      <div>
-                        <h4 className="text-sm font-bold text-chocolat line-clamp-2">
-                          {`5 mythes sur l'orgasme féminin`}
-                        </h4>
-                        <div className="flex space-x-3 text-xs text-chocolat/60 mt-2">
-                          <span>{`❤️ 15`}</span>
-                          <span>{`💬 0`}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-
-              </div>
-            </div>
-
-            {/* Infographie sur le Plaisir Féminin */}
-            <div className="bg-white p-8 rounded-3xl border border-terracotta/10 shadow-sm space-y-6">
-              <h2 className="text-2xl font-bold text-chocolat text-center">
-                {`Infographie sur le Plaisir Féminin`}
-              </h2>
-              <div className="bg-creme p-6 rounded-2xl border border-terracotta/15 flex flex-col md:flex-row items-center justify-around gap-6 text-center">
-                <div className="space-y-2 max-w-xs">
-                  <div className="w-12 h-12 bg-terracotta text-white rounded-full flex items-center justify-center mx-auto font-bold">{`1`}</div>
-                  <h4 className="font-bold text-chocolat">{`Anatomie & Cycle`}</h4>
-                  <p className="text-xs text-chocolat/70">{`Cartographie complète et repères biologiques essentiels.`}</p>
-                </div>
-                <div className="space-y-2 max-w-xs">
-                  <div className="w-12 h-12 bg-terracotta text-white rounded-full flex items-center justify-center mx-auto font-bold">{`2`}</div>
-                  <h4 className="font-bold text-chocolat">{`Zones Érogènes`}</h4>
-                  <p className="text-xs text-chocolat/70">{`Comprendre la sensibilité externe et interne sans complexe.`}</p>
-                </div>
-                <div className="space-y-2 max-w-xs">
-                  <div className="w-12 h-12 bg-terracotta text-white rounded-full flex items-center justify-center mx-auto font-bold">{`3`}</div>
-                  <h4 className="font-bold text-chocolat">{`Plaisir & Lâcher-prise`}</h4>
-                  <p className="text-xs text-chocolat/70">{`Sortir de la performance pour retrouver le bien-être.`}</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          {/* COLONNE DROITE / SIDEBAR */}
-          <div className="lg:col-span-4 space-y-8">
-            
-            {/* Catégories Populaires */}
-            <div className="bg-white p-6 rounded-3xl border border-terracotta/10 shadow-sm space-y-4">
-              <h3 className="font-bold text-lg text-chocolat border-b border-terracotta/10 pb-3">
-                {`Catégories Populaires`}
-              </h3>
-              <ul className="space-y-2.5 text-sm text-chocolat/80 font-medium">
-                <li className="hover:text-terracotta cursor-pointer transition flex items-center space-x-2">
-                  <span className="text-terracotta">{`›`}</span> <span>{`Catégories`}</span>
-                </li>
-                <li className="hover:text-terracotta cursor-pointer transition flex items-center space-x-2">
-                  <span className="text-terracotta">{`›`}</span> <span>{`Ressources`}</span>
-                </li>
-                <li className="hover:text-terracotta cursor-pointer transition flex items-center space-x-2">
-                  <span className="text-terracotta">{`›`}</span> <span>{`Anorgasmie`}</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Derniers Commentaires */}
-            <div className="bg-white p-6 rounded-3xl border border-terracotta/10 shadow-sm space-y-4">
-              <h3 className="font-bold text-lg text-chocolat border-b border-terracotta/10 pb-3">
-                {`Derniers Commentaires`}
-              </h3>
-              
-              <div className="space-y-4 text-xs">
-                <div className="space-y-1">
-                  <p className="font-semibold text-chocolat flex items-center space-x-1.5">
-                    <span className="w-2 h-2 rounded-full bg-terracotta"></span>
-                    <span>{`L'importance de la communication dans le couple`}</span>
-                  </p>
-                  <p className="text-chocolat/60 pl-3.5">{`3 commentaires • il y a 5 minutes`}</p>
-                </div>
-
-                <div className="space-y-1">
-                  <p className="font-semibold text-chocolat flex items-center space-x-1.5">
-                    <span className="w-2 h-2 rounded-full bg-terracotta"></span>
-                    <span>{`L'importance de la communication dans le couple`}</span>
-                  </p>
-                  <p className="text-chocolat/60 pl-3.5">{`3 commentaires • il y a 15 minutes`}</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Newsletter */}
-            <div className="bg-white p-6 rounded-3xl border border-terracotta/10 shadow-sm space-y-4">
-              <h3 className="font-bold text-lg text-chocolat">{`Newsletter`}</h3>
-              <p className="text-xs text-chocolat/70 leading-relaxed">
-                {`Inscrivez-vous pour recevoir nos actualités et conseils exclusifs.`}
+              <p className="text-white/80 text-base sm:text-lg font-sans leading-relaxed">
+                JE NE JOUIS PAS est le premier média indépendant dédié exclusivement à la libération de la parole, à l&apos;éducation anatomy-positive et au bien-être intime des femmes.
               </p>
-              
-              <div className="relative pt-1">
-                <input 
-                  type="email" 
-                  placeholder="Email address..." 
-                  className="w-full bg-creme text-xs rounded-full pl-4 pr-10 py-2.5 border border-terracotta/30 focus:outline-none focus:border-terracotta text-chocolat"
-                />
-                <button className="absolute right-1.5 top-[calc(50%+2px)] -translate-y-1/2 bg-terracotta hover:bg-[#A8533B] text-white p-1.5 rounded-full transition">
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
+
+              <div className="flex flex-wrap gap-2 pt-1">
+                {["100% Scientifique", "0% Injonction", "Sororité Absolute", "100% Libérateur"].map((valeur, index) => (
+                  <span 
+                    key={index} 
+                    className="bg-white/10 hover:bg-[#C86D51] hover:text-white transition-all cursor-pointer text-xs font-semibold px-3.5 py-1.5 rounded-xl border border-white/10 backdrop-blur-sm"
+                  >
+                    ✨ {valeur}
+                  </span>
+                ))}
+              </div>
+
+              <div className="pt-4 border-t border-white/10 space-y-3">
+                <p className="text-xs font-semibold text-[#E29578] font-sans uppercase tracking-wider">
+                  Rejoignez le mouvement & signez le pacte
+                </p>
+
+                <form onSubmit={(e) => e.preventDefault()} className="flex flex-col sm:flex-row gap-3">
+                  <input 
+                    type="text" 
+                    placeholder="Votre prénom ou pseudo..." 
+                    className="bg-white/10 border border-white/20 focus:border-[#E29578] text-white placeholder-white/50 px-5 py-3 rounded-2xl text-sm focus:outline-none flex-1 backdrop-blur-md transition"
+                  />
+                  <button 
+                    type="submit"
+                    className="bg-[#C86D51] hover:bg-[#D8836A] text-white font-bold px-8 py-3 rounded-2xl text-sm transition-all shadow-lg flex items-center justify-center gap-2 font-sans"
+                  >
+                    <span>Signer le Pacte</span>
+                    <span>✍️</span>
+                  </button>
+                </form>
+
+                <div className="flex items-center gap-3 text-xs text-white/60 pt-1">
+                  <span>Déjà <strong className="text-white font-semibold">12 480 lectrices</strong> ont signé.</span>
+                </div>
               </div>
             </div>
 
-            {/* Mini Footer Sidebar */}
-            <div className="bg-chocolat text-creme p-6 rounded-3xl space-y-4 text-xs">
-              <div className="space-y-1">
-                <p className="font-bold text-sm text-terracotta">{`JE NE JOUIS PAS`}</p>
-                <p className="text-creme/70">{`Espace d'échange et d'émancipation.`}</p>
-              </div>
-              <div className="flex space-x-3 pt-2 text-creme/80">
-                <span className="hover:text-terracotta cursor-pointer">{`Ig`}</span>
-                <span className="hover:text-terracotta cursor-pointer">{`Fb`}</span>
-                <span className="hover:text-terracotta cursor-pointer">{`Yt`}</span>
-                <span className="hover:text-terracotta cursor-pointer">{`Pt`}</span>
-              </div>
-              <div className="pt-2 border-t border-creme/10 text-[10px] text-creme/50">
-                {`Copyright je ne jouis pas`}
+            <div className="lg:col-span-5 flex items-center justify-center">
+              <div className="relative group/img cursor-pointer">
+                <div className="absolute -inset-2 bg-gradient-to-r from-[#E29578] to-[#C86D51] rounded-3xl opacity-70 blur-md group-hover/img:opacity-100 transition duration-500"></div>
+                <div className="relative rounded-2xl overflow-hidden border-2 border-white/20 shadow-2xl bg-[#FF80A0]">
+                  <img 
+                    src="/petits_doigts.jpg" 
+                    alt="Pacte du plaisir" 
+                    className="w-full max-w-md h-auto object-cover transform group-hover/img:scale-105 group-hover/img:rotate-1 transition-all duration-500 ease-out"
+                  />
+                </div>
+                <div className="absolute -bottom-4 -left-4 bg-[#FAF4EF] text-[#3A2521] text-xs font-bold px-4 py-2.5 rounded-2xl shadow-xl border border-[#C86D51]/20 flex items-center gap-2 transform -rotate-3">
+                  <span className="text-base">🤙</span>
+                  <span>Promesse Jurée</span>
+                </div>
               </div>
             </div>
-
           </div>
+        </div>
+      </section>
+
+      {/* 🌟 SECTION "À LA UNE" : DÉFILÉ ULTRA-DYNAMIQUE 3 PAR 3 */}
+      <section id="articles" className="max-w-7xl mx-auto px-4 py-12">
+        
+        {/* Titre & Contrôles dynamiques bien espacés */}
+        <div className="flex items-center justify-between mb-10">
+          <div>
+            <span className="text-xs font-bold text-[#C86D51] uppercase tracking-widest font-sans">
+              Interactions & Lectures
+            </span>
+            <h2 className="text-3xl md:text-5xl font-serif font-bold text-[#3A2521] tracking-tight mt-2">
+              À la une
+            </h2>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={prevSlide}
+              aria-label="3 articles précédents"
+              className="w-12 h-12 rounded-full bg-[#3A2521] text-white hover:bg-[#C86D51] transition-all flex items-center justify-center shadow-lg active:scale-95 transform hover:-translate-x-0.5"
+            >
+              ←
+            </button>
+            <span className="text-xs font-bold text-[#C86D51] px-2 font-sans">
+              {pageIndex + 1} / {totalPages}
+            </span>
+            <button 
+              onClick={nextSlide}
+              aria-label="3 articles suivants"
+              className="w-12 h-12 rounded-full bg-[#3A2521] text-white hover:bg-[#C86D51] transition-all flex items-center justify-center shadow-lg active:scale-95 transform hover:translate-x-0.5"
+            >
+              →
+            </button>
+          </div>
+        </div>
+
+        {/* GRILLE DYNAMIQUE DES 3 ARTICLES */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-0 bg-[#FAF4EF] rounded-[2.5rem] border border-[#C86D51]/20 overflow-hidden shadow-2xl">
+          
+          {currentArticles.map((article, index) => (
+            <article 
+              key={article.id}
+              className={`p-6 md:p-8 flex flex-col justify-between group transition-all duration-500 hover:bg-[#3A2521]/[0.025] ${
+                index !== currentArticles.length - 1 ? "md:border-r border-b md:border-b-0 border-[#C86D51]/20" : ""
+              }`}
+            >
+              <div className="space-y-5">
+                
+                {/* Carte image dynamique avec bouton like fonctionnel */}
+                <div className="relative h-52 rounded-2xl overflow-hidden shadow-md bg-[#3A2521] group/card">
+                  <img 
+                    src={article.image} 
+                    alt={article.titre} 
+                    className="w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-700 ease-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#3A2521]/60 via-transparent to-transparent group-hover/card:from-[#3A2521]/40 transition-colors"></div>
+                  
+                  {/* Badge Catégorie */}
+                  <span className="absolute top-3 left-3 bg-[#FAF4EF]/95 backdrop-blur-md text-[#3A2521] text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider border border-[#C86D51]/20 shadow-sm">
+                    {article.tag}
+                  </span>
+
+                  {/* Bouton Like Interactif Réel */}
+                  <div className="absolute bottom-3 right-3">
+                    <button 
+                      onClick={() => toggleLike(article.id)}
+                      className="bg-[#3A2521]/90 hover:bg-[#C86D51] text-white backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 shadow-lg active:scale-125"
+                    >
+                      <span className="text-red-400">❤️</span>
+                      <span>{likesState[article.id]}</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Méta-données */}
+                <div className="flex items-center text-xs text-[#C86D51] font-semibold font-sans space-x-2">
+                  <span>⏱️ {article.tempsLecture}</span>
+                  <span>•</span>
+                  <span className="truncate">{article.source}</span>
+                </div>
+
+                {/* Titre */}
+                <h3 className="text-xl font-serif font-bold text-[#3A2521] group-hover:text-[#C86D51] transition-colors leading-snug">
+                  {article.titre}
+                </h3>
+
+                {/* Extrait */}
+                <p className="text-[#3A2521]/80 text-xs sm:text-sm leading-relaxed line-clamp-3 font-sans">
+                  {article.description}
+                </p>
+              </div>
+
+              {/* Action interactive */}
+              <div className="pt-6 mt-6 border-t border-[#C86D51]/15 flex items-center justify-between">
+                <button className="text-xs font-bold text-[#C86D51] group-hover:text-[#3A2521] transition-colors flex items-center gap-1.5 font-sans">
+                  <span>Lire l&apos;article</span>
+                  <span className="transform group-hover:translate-x-1 transition-transform">→</span>
+                </button>
+                <span className="text-[10px] uppercase font-bold text-[#3A2521]/40 font-sans tracking-wider">
+                  Science-Backed
+                </span>
+              </div>
+
+            </article>
+          ))}
 
         </div>
-      </main>
+
+      </section>
 
     </div>
   );
