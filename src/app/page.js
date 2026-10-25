@@ -3,76 +3,74 @@
 import { useState } from 'react';
 
 export default function Home() {
-  // Collection d'articles pour la section "À la une"
   const articlesCatalogue = [
     {
       id: 1,
       tag: "Grand Dossier",
-      tempsLecture: "8 min",
       titre: "Pourquoi 70% des femmes n'atteignent pas l'orgasme par la simple pénétration ?",
       description: "Déconstruction d'un mythe anatomique tenace et éclairage médical sur le plaisir clitoridien.",
       image: "/femme_bain.jpg",
       source: "Kinsey Institute (2018)",
-      likes: 342
+      likes: 342,
+      url: "#article-1"
     },
     {
       id: 2,
       tag: "Psycho & Corps",
-      tempsLecture: "6 min",
       titre: "Apprendre à lâcher prise : libérer le mental pour reconnecter au corps",
       description: "L'hypercontrôle et le spectatoring : comprendre les mécanismes du blocage et retrouver la présence.",
-      image: "/cowboy.jpg",
+      image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1000&q=80",
       source: "Masters & Johnson Research",
-      likes: 215
+      likes: 215,
+      url: "#article-2"
     },
     {
       id: 3,
       tag: "Anatomie & Science",
-      tempsLecture: "10 min",
       titre: "La cartographie invisible : 8 000 terminaisons nerveuses en action",
       description: "Exploration haute précision du réseau clitoridien grâce aux avancées de l'imagerie médicale.",
-      image: "/orchidee.jpg",
+      image: "/women_talking.jpg",
       source: "Dr. Helen O'Connell",
-      likes: 512
+      likes: 512,
+      url: "#article-3"
     },
     {
       id: 4,
       tag: "Désir & Rythmes",
-      tempsLecture: "7 min",
       titre: "Fluctuations hormonales et libido : écouter son cycle sans culpabilité",
       description: "Comment les phases du cycle menstruel influencent l'énergie érotique et la sensibilité tactile.",
-      image: "/femme_miroir.jpg",
+      image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1000&q=80",
       source: "Journal of Endocrinology (2021)",
-      likes: 189
+      likes: 189,
+      url: "#article-4"
     },
     {
       id: 5,
       tag: "Communication",
-      tempsLecture: "5 min",
       titre: "Exprimer ses désirs sans gêne : les clés du dialogue intime",
       description: "Des outils concrets et des formulations bienveillantes pour partager ses besoins en toute sérénité.",
-      image: "/bouche_orange.jpg",
+      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1000&q=80",
       source: "Société Française de Sexologie",
-      likes: 276
+      likes: 276,
+      url: "#article-5"
     },
     {
       id: 6,
       tag: "Somatic Pleasure",
-      tempsLecture: "9 min",
       titre: "La mémoire corporelle du plaisir : reconnecter par le toucher somatique",
       description: "Travailler la conscience corporelle pour débloquer les tensions et réveiller la sensibilité nerveuse.",
       image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=1000&q=80",
       source: "Somatic Experiencing Institute",
-      likes: 403
+      likes: 403,
+      url: "#article-6"
     }
   ];
 
-  // Index de la page de 3 articles
   const [pageIndex, setPageIndex] = useState(0);
+  const [slideDirection, setSlideDirection] = useState("translate-x-0 opacity-100");
   const articlesPerPage = 3;
   const totalPages = Math.ceil(articlesCatalogue.length / articlesPerPage);
 
-  // Gestion des likes interactifs réels
   const [likesState, setLikesState] = useState(
     articlesCatalogue.reduce((acc, curr) => ({ ...acc, [curr.id]: curr.likes }), {})
   );
@@ -84,12 +82,36 @@ export default function Home() {
     }));
   };
 
+  const changePage = (newIndex, direction) => {
+    // Effet de slide fluide
+    setSlideDirection(
+      direction === "next" 
+        ? "-translate-x-12 opacity-0" 
+        : "translate-x-12 opacity-0"
+    );
+
+    setTimeout(() => {
+      setPageIndex(newIndex);
+      setSlideDirection(
+        direction === "next" 
+          ? "translate-x-12 opacity-0" 
+          : "-translate-x-12 opacity-0"
+      );
+
+      requestAnimationFrame(() => {
+        setSlideDirection("translate-x-0 opacity-100");
+      });
+    }, 200);
+  };
+
   const prevSlide = () => {
-    setPageIndex((prev) => (prev === 0 ? totalPages - 1 : prev - 1));
+    const newIdx = pageIndex === 0 ? totalPages - 1 : pageIndex - 1;
+    changePage(newIdx, "prev");
   };
 
   const nextSlide = () => {
-    setPageIndex((prev) => (prev === totalPages - 1 ? 0 : prev + 1));
+    const newIdx = pageIndex === totalPages - 1 ? 0 : pageIndex + 1;
+    changePage(newIdx, "next");
   };
 
   const currentArticles = articlesCatalogue.slice(
@@ -283,10 +305,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 🌟 SECTION "À LA UNE" : DÉFILÉ ULTRA-DYNAMIQUE 3 PAR 3 */}
+      {/* 🌟 SECTION "À LA UNE" : CARTES SÉPARÉES ET ANIMATION SLIDE */}
       <section id="articles" className="max-w-7xl mx-auto px-4 py-12">
         
-        {/* Titre & Contrôles dynamiques bien espacés */}
+        {/* Titre & Contrôles */}
         <div className="flex items-center justify-between mb-10">
           <div>
             <span className="text-xs font-bold text-[#C86D51] uppercase tracking-widest font-sans">
@@ -301,7 +323,7 @@ export default function Home() {
             <button 
               onClick={prevSlide}
               aria-label="3 articles précédents"
-              className="w-12 h-12 rounded-full bg-[#3A2521] text-white hover:bg-[#C86D51] transition-all flex items-center justify-center shadow-lg active:scale-95 transform hover:-translate-x-0.5"
+              className="w-12 h-12 rounded-full bg-[#3A2521] text-white hover:bg-[#C86D51] transition-all flex items-center justify-center shadow-lg active:scale-95"
             >
               ←
             </button>
@@ -311,83 +333,74 @@ export default function Home() {
             <button 
               onClick={nextSlide}
               aria-label="3 articles suivants"
-              className="w-12 h-12 rounded-full bg-[#3A2521] text-white hover:bg-[#C86D51] transition-all flex items-center justify-center shadow-lg active:scale-95 transform hover:translate-x-0.5"
+              className="w-12 h-12 rounded-full bg-[#3A2521] text-white hover:bg-[#C86D51] transition-all flex items-center justify-center shadow-lg active:scale-95"
             >
               →
             </button>
           </div>
         </div>
 
-        {/* GRILLE DYNAMIQUE DES 3 ARTICLES */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-0 bg-[#FAF4EF] rounded-[2.5rem] border border-[#C86D51]/20 overflow-hidden shadow-2xl">
-          
-          {currentArticles.map((article, index) => (
-            <article 
-              key={article.id}
-              className={`p-6 md:p-8 flex flex-col justify-between group transition-all duration-500 hover:bg-[#3A2521]/[0.025] ${
-                index !== currentArticles.length - 1 ? "md:border-r border-b md:border-b-0 border-[#C86D51]/20" : ""
-              }`}
-            >
-              <div className="space-y-5">
-                
-                {/* Carte image dynamique avec bouton like fonctionnel */}
-                <div className="relative h-52 rounded-2xl overflow-hidden shadow-md bg-[#3A2521] group/card">
-                  <img 
-                    src={article.image} 
-                    alt={article.titre} 
-                    className="w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-700 ease-out"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#3A2521]/60 via-transparent to-transparent group-hover/card:from-[#3A2521]/40 transition-colors"></div>
+        {/* CONTENEUR DES CARTES SÉPARÉES AVEC EFFET SLIDE */}
+        <div className="overflow-hidden py-2">
+          <div 
+            className={`grid grid-cols-1 md:grid-cols-3 gap-6 transition-all duration-300 ease-out transform ${slideDirection}`}
+          >
+            
+            {currentArticles.map((article) => (
+              <article 
+                key={article.id}
+                className="bg-[#FAF4EF] border border-[#C86D51]/30 rounded-[2rem] p-6 flex flex-col justify-between shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 group"
+              >
+                <div className="space-y-4">
                   
-                  {/* Badge Catégorie */}
-                  <span className="absolute top-3 left-3 bg-[#FAF4EF]/95 backdrop-blur-md text-[#3A2521] text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider border border-[#C86D51]/20 shadow-sm">
-                    {article.tag}
-                  </span>
+                  {/* Carte image cliquable menant à l'article */}
+                  <a href={article.url} className="relative block h-52 rounded-2xl overflow-hidden shadow-md bg-[#3A2521] group/card">
+                    <img 
+                      src={article.image} 
+                      alt={article.titre} 
+                      className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-700 ease-out"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#3A2521]/50 via-transparent to-transparent"></div>
+                    
+                    {/* Badge Catégorie */}
+                    <span className="absolute top-3 left-3 bg-[#FAF4EF]/95 backdrop-blur-md text-[#3A2521] text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider border border-[#C86D51]/20 shadow-sm">
+                      {article.tag}
+                    </span>
 
-                  {/* Bouton Like Interactif Réel */}
-                  <div className="absolute bottom-3 right-3">
-                    <button 
-                      onClick={() => toggleLike(article.id)}
-                      className="bg-[#3A2521]/90 hover:bg-[#C86D51] text-white backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 shadow-lg active:scale-125"
-                    >
-                      <span className="text-red-400">❤️</span>
-                      <span>{likesState[article.id]}</span>
-                    </button>
+                    {/* Bouton Like Interactif Réel */}
+                    <div className="absolute bottom-3 right-3" onClick={(e) => e.preventDefault()}>
+                      <button 
+                        onClick={() => toggleLike(article.id)}
+                        className="bg-[#3A2521]/90 hover:bg-[#C86D51] text-white backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 shadow-lg active:scale-125"
+                      >
+                        <span className="text-red-400">❤️</span>
+                        <span>{likesState[article.id]}</span>
+                      </button>
+                    </div>
+                  </a>
+
+                  {/* Source */}
+                  <div className="text-xs text-[#C86D51] font-semibold font-sans pt-1">
+                    <span>{article.source}</span>
                   </div>
+
+                  {/* Titre cliquable menant à l'article */}
+                  <a href={article.url}>
+                    <h3 className="text-xl font-serif font-bold text-[#3A2521] group-hover:text-[#C86D51] transition-colors leading-snug">
+                      {article.titre}
+                    </h3>
+                  </a>
+
+                  {/* Extrait */}
+                  <p className="text-[#3A2521]/80 text-xs sm:text-sm leading-relaxed line-clamp-3 font-sans">
+                    {article.description}
+                  </p>
                 </div>
 
-                {/* Méta-données */}
-                <div className="flex items-center text-xs text-[#C86D51] font-semibold font-sans space-x-2">
-                  <span>⏱️ {article.tempsLecture}</span>
-                  <span>•</span>
-                  <span className="truncate">{article.source}</span>
-                </div>
+              </article>
+            ))}
 
-                {/* Titre */}
-                <h3 className="text-xl font-serif font-bold text-[#3A2521] group-hover:text-[#C86D51] transition-colors leading-snug">
-                  {article.titre}
-                </h3>
-
-                {/* Extrait */}
-                <p className="text-[#3A2521]/80 text-xs sm:text-sm leading-relaxed line-clamp-3 font-sans">
-                  {article.description}
-                </p>
-              </div>
-
-              {/* Action interactive */}
-              <div className="pt-6 mt-6 border-t border-[#C86D51]/15 flex items-center justify-between">
-                <button className="text-xs font-bold text-[#C86D51] group-hover:text-[#3A2521] transition-colors flex items-center gap-1.5 font-sans">
-                  <span>Lire l&apos;article</span>
-                  <span className="transform group-hover:translate-x-1 transition-transform">→</span>
-                </button>
-                <span className="text-[10px] uppercase font-bold text-[#3A2521]/40 font-sans tracking-wider">
-                  Science-Backed
-                </span>
-              </div>
-
-            </article>
-          ))}
-
+          </div>
         </div>
 
       </section>
