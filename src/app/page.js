@@ -7,9 +7,9 @@ export default function Home() {
     {
       id: 1,
       tag: "Grand Dossier",
-      titre: "Pourquoi 70% des femmes n'atteignent pas l'orgasme par la simple pénétration ?",
+      titre: "Orgasme en solo, blocage en duo : découvrez le plaisir avec votre partenaire",
       description: "Déconstruction d'un mythe anatomique tenace et éclairage médical sur le plaisir clitoridien.",
-      image: "/femme_bain.jpg",
+      image: "/fruits.jpg",
       source: "Kinsey Institute (2018)",
       likes: 342,
       url: "#article-1"
@@ -19,7 +19,7 @@ export default function Home() {
       tag: "Psycho & Corps",
       titre: "Apprendre à lâcher prise : libérer le mental pour reconnecter au corps",
       description: "L'hypercontrôle et le spectatoring : comprendre les mécanismes du blocage et retrouver la présence.",
-      image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1000&q=80",
+      image: "/femme_bain.jpg",
       source: "Masters & Johnson Research",
       likes: 215,
       url: "#article-2"
@@ -27,9 +27,9 @@ export default function Home() {
     {
       id: 3,
       tag: "Anatomie & Science",
-      titre: "La cartographie invisible : 8 000 terminaisons nerveuses en action",
-      description: "Exploration haute précision du réseau clitoridien grâce aux avancées de l'imagerie médicale.",
-      image: "/women_talking.jpg",
+      titre: "L'art du Sitting : Osez prendre le dessus!",
+      description: "Suspendre le mouvement pour retrouver les sensations : la magie du sitting.",
+      image: "accroupie.jpg",
       source: "Dr. Helen O'Connell",
       likes: 512,
       url: "#article-3"
@@ -39,7 +39,7 @@ export default function Home() {
       tag: "Désir & Rythmes",
       titre: "Fluctuations hormonales et libido : écouter son cycle sans culpabilité",
       description: "Comment les phases du cycle menstruel influencent l'énergie érotique et la sensibilité tactile.",
-      image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1000&q=80",
+      image: "femme_miroir.jpg",
       source: "Journal of Endocrinology (2021)",
       likes: 189,
       url: "#article-4"
@@ -49,7 +49,7 @@ export default function Home() {
       tag: "Communication",
       titre: "Exprimer ses désirs sans gêne : les clés du dialogue intime",
       description: "Des outils concrets et des formulations bienveillantes pour partager ses besoins en toute sérénité.",
-      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1000&q=80",
+      image: "bouche_orange.jpg",
       source: "Société Française de Sexologie",
       likes: 276,
       url: "#article-5"
@@ -59,7 +59,7 @@ export default function Home() {
       tag: "Somatic Pleasure",
       titre: "La mémoire corporelle du plaisir : reconnecter par le toucher somatique",
       description: "Travailler la conscience corporelle pour débloquer les tensions et réveiller la sensibilité nerveuse.",
-      image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=1000&q=80",
+      image: "massage.jpg",
       source: "Somatic Experiencing Institute",
       likes: 403,
       url: "#article-6"
@@ -83,7 +83,6 @@ export default function Home() {
   };
 
   const changePage = (newIndex, direction) => {
-    // Effet de slide fluide
     setSlideDirection(
       direction === "next" 
         ? "-translate-x-12 opacity-0" 
@@ -305,7 +304,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 🌟 SECTION "À LA UNE" : CARTES SÉPARÉES ET ANIMATION SLIDE */}
+      {/* 🌟 SECTION "À LA UNE" : CARTES ÉPURÉES SANS BADGES SUR LES IMAGES */}
       <section id="articles" className="max-w-7xl mx-auto px-4 py-12">
         
         {/* Titre & Contrôles */}
@@ -340,7 +339,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* CONTENEUR DES CARTES SÉPARÉES AVEC EFFET SLIDE */}
+        {/* CONTENEUR DES CARTES SÉPARÉES AVEC EFFET SLIDE ÉPURÉ */}
         <div className="overflow-hidden py-2">
           <div 
             className={`grid grid-cols-1 md:grid-cols-3 gap-6 transition-all duration-300 ease-out transform ${slideDirection}`}
@@ -353,21 +352,16 @@ export default function Home() {
               >
                 <div className="space-y-4">
                   
-                  {/* Carte image cliquable menant à l'article */}
+                  {/* Carte image cliquable menant à l'article (sans badge de catégorie) */}
                   <a href={article.url} className="relative block h-52 rounded-2xl overflow-hidden shadow-md bg-[#3A2521] group/card">
                     <img 
                       src={article.image} 
                       alt={article.titre} 
                       className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-700 ease-out"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#3A2521]/50 via-transparent to-transparent"></div>
-                    
-                    {/* Badge Catégorie */}
-                    <span className="absolute top-3 left-3 bg-[#FAF4EF]/95 backdrop-blur-md text-[#3A2521] text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider border border-[#C86D51]/20 shadow-sm">
-                      {article.tag}
-                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#3A2521]/40 via-transparent to-transparent"></div>
 
-                    {/* Bouton Like Interactif Réel */}
+                    {/* Bouton Like Interactif Réel (seul élément interactif sur l'image) */}
                     <div className="absolute bottom-3 right-3" onClick={(e) => e.preventDefault()}>
                       <button 
                         onClick={() => toggleLike(article.id)}
